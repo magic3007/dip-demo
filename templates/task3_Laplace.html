@@ -2,21 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>作业2: 形态学变化</title>
+    <title>作业3: 锐化滤波器</title>
   </head>
 
   <body>
     <div style="margin-left: 200px; margin-right: 200px">
-      <b>
-        对输入图像进行开, 闭, 腐蚀, 膨胀这四种形态学变换,
-        并显示每种变换后的结果图像。
-      </b>
+      <b> 用拉普拉斯变换对图像进行增强. </b>
     </div>
     <br />
     <div style="margin-left: 200px; margin-right: 200px">
       <form
         method="post"
-        action="{{url_for('Morph')}}"
+        action="{{url_for('Laplace')}}"
         enctype="multipart/form-data"
       >
         1. 请选择上传图像类型：

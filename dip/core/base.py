@@ -186,7 +186,7 @@ def laplace_transform(img: np.array):
     laplace transform
     '''
     assert len(img.shape) == 2, 'src must be a 2D array'
-    kernel = np.array([[0, 1, 0], [1, -4, 1], [0, 1, 0]])
+    kernel = np.array([[1, 1, 1], [1, -8, 1], [1, 1, 1]])
     return convolve(img, kernel)
 
 def hough_transform(img: np.array, edge_img: np.array, theta_num: int, rho_num: int, top_k: int):

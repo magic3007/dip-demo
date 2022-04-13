@@ -10,6 +10,7 @@ import datetime
 import random
 import HistEq as he
 import Morph as mo
+import Laplace as la 
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'upload')
@@ -133,6 +134,43 @@ def Morph():
     except:
         pass
     return render_template('task2_Morph.html', dir_result=save_morph_dir)
+
+@app.route('/Laplace', methods=['POST'], strict_slashes=False)
+def Laplace():
+    file_dir = app.config['UPLOAD_FOLDER']
+    save_laplace_dir = ''
+    if not os.path.exists(file_dir):
+        os.makedirs(file_dir)
+    try:
+        f = request.files["photo"]
+    except:
+        return render_template('task3_Laplace.html', dir_result=save_laplace_dir)
+    try:
+        fname = secure_filename(f.filename)
+        _, ext = os.path.splitext(fname)
+        new_filename = Pic_str().create_uuid()
+        save_dir = os.path.join(file_dir, new_filename + ext)
+        f.save(save_dir)
+        # forward to processing image
+        if request.form['mode'] == 'gray':
+            save_laplace_dir = os.path.join(
+                file_dir, new_filename + '_Laplace.jpg')
+            img = cv2.imread(save_dir, cv2.IMREAD_GRAYSCALE)
+            texts = ['Origin', 'Laplace', 'Origin+Laplace']
+            dsts = la.MyMethod(img, 'gray')
+            cv2.imwrite(save_laplace_dir,  resize(np.concatenate(
+                [add_title(add_border(dsts[i]), text=texts[i]) for i in range(len(texts))], axis=1)))
+        else:
+            save_laplace_dir = os.path.join(
+                file_dir, new_filename + '_Laplace.jpg')
+            img = cv2.imread(save_dir, cv2.IMREAD_COLOR)
+            texts = ['Origin', 'Gray', 'Laplace', 'Gray+Laplace']
+            dsts = la.MyMethod(img, 'color')
+            cv2.imwrite(save_laplace_dir,  resize(np.concatenate(
+                [add_title(add_border(dsts[i]), text=texts[i]) for i in range(len(texts))], axis=1)))
+    except Exception as e:
+        raise e
+    return render_template('task3_Laplace.html', dir_result=save_laplace_dir)
 
 # @app.route('/FFT', methods=['POST'], strict_slashes=False)
 # def FFT():
