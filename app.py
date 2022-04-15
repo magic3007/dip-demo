@@ -143,9 +143,6 @@ def Laplace():
         os.makedirs(file_dir)
     try:
         f = request.files["photo"]
-    except:
-        return render_template('task3_Laplace.html', dir_result=save_laplace_dir)
-    try:
         fname = secure_filename(f.filename)
         _, ext = os.path.splitext(fname)
         new_filename = Pic_str().create_uuid()
@@ -168,8 +165,8 @@ def Laplace():
             dsts = la.MyMethod(img, 'color')
             cv2.imwrite(save_laplace_dir,  resize(np.concatenate(
                 [add_title(add_border(dsts[i]), text=texts[i]) for i in range(len(texts))], axis=1)))
-    except Exception as e:
-        raise e
+    except:
+        pass
     return render_template('task3_Laplace.html', dir_result=save_laplace_dir)
 
 # @app.route('/FFT', methods=['POST'], strict_slashes=False)

@@ -32,8 +32,8 @@ def MyMethod(img, mode):
         # equlizeHist in lightness ; equlizeHist and exp in saturation
         # img_HLS[:, :, 1] = cv2.equalizeHist(img_HLS[:, :, 1])
         # img_HLS[:, :, 2] = cv2.equalizeHist(img_HLS[:, :, 2])
-        img_HLS_eql[:, :, 1] = dip.hist_eq(img_HLS_eql[:, :, 1])
-        img_HLS_eql[:, :, 2] = dip.hist_eq(img_HLS_eql[:, :, 2])
+        img_HLS[:, :, 1] = dip.hist_eq(img_HLS[:, :, 1])
+        img_HLS[:, :, 2] = dip.hist_eq(img_HLS[:, :, 2])
         img_HLS[:, :, 2] = np.uint8(
             np.clip(img_HLS[:, :, 2]/255.*160+50., 0, 255))
 

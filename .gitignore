@@ -1,3 +1,6 @@
 .idea/
 __pycache__/
 static/upload/
+scripts/HistEq_test/
+scripts/Morph_test/
+scripts/Laplace_test/
