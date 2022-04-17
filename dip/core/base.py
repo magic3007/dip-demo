@@ -79,7 +79,7 @@ def opening(img: np.array, kernel_size: int):
     """ opening operation
     """
     img_erode = erosion(img, kernel_size)
-    img_dilate = dilation(img_erode, kernel_size)
+    img_dilate = dilation(img, kernel_size)
     return img_dilate
 
 
@@ -92,18 +92,27 @@ def closing(img: np.array, kernel_size: int):
     return img_erode
 
 
+def morph_grad(img: np.array, kernel_size: int):
+    '''
+    morphological gradient operation
+    '''
+    img_erose = erosion(img, kernel_size)
+    img_dilute = dilation(img, kernel_size)
+    return np.abs(img_erose.astype(np.int32) - img_dilute.astype(np.int32)).astype(np.uint8)
+
+
 def top_hat(img: np.array, kernel_size: int):
     """ top hat operation
     """
     img_open = opening(img, kernel_size)
-    return np.abs(img - img_open)
+    return np.abs(img.astype(np.int32) - img_open.astype(np.int32)).astype(np.uint8)
 
 
 def black_hat(img: np.array, kernel_size: int):
     """ black hat operation
     """
     img_close = closing(img, kernel_size)
-    return np.abs(img_close - img)
+    return np.abs(img_close.astype(np.int32) - img.astype(np.int32)).astype(np.uint8)
 
 
 def binary(img: np.array, threshold: float):
@@ -189,6 +198,7 @@ def laplace_transform(img: np.array):
     kernel = np.array([[1, 1, 1], [1, -8, 1], [1, 1, 1]])
     return convolve(img, kernel)
 
+
 def hough_transform(img: np.array, edge_img: np.array, theta_num: int, rho_num: int, top_k: int):
     '''
     hough transform
@@ -224,6 +234,7 @@ def hough_transform(img: np.array, edge_img: np.array, theta_num: int, rho_num: 
     t, r = thetas[theta_idx], rhos[rho_idx]
     return t, r
 
+
 def plot_img_line(img: np.array, thetas: np.array, rhos: np.array):
     '''
     plot image with lines. The axis origin is at the center of the image.
@@ -236,7 +247,7 @@ def plot_img_line(img: np.array, thetas: np.array, rhos: np.array):
     fig = plt.figure()
     subplot = fig.add_subplot(1, 1, 1)
     # ! To show the image correctly, we stipulate:
-    # - The x axis of is vertical (from top to bottom), 
+    # - The x axis of is vertical (from top to bottom),
     # - and the y axis of is horizontal (from left to right).
     subplot.set_xlim(0, width)
     subplot.set_ylim(0, height)

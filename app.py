@@ -10,7 +10,7 @@ import datetime
 import random
 import HistEq as he
 import Morph as mo
-import Laplace as la 
+import Laplace as la
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'upload')
@@ -119,7 +119,8 @@ def Morph():
             save_morph_dir = os.path.join(
                 file_dir, new_filename + '_Morph.jpg')
             img = cv2.imread(save_dir, cv2.IMREAD_GRAYSCALE)
-            texts = ['Origin', 'Opening', 'Closing', 'Erosion', 'Dilation']
+            texts = ['Origin',  'Erosion', 'Dilation', 'Opening',
+                     'Closing', 'Grad', 'TopHat', 'BlackHat']
             dsts = mo.MyMethod(img, 'gray')
             cv2.imwrite(save_morph_dir,  resize(np.concatenate(
                 [add_title(add_border(dsts[i]), text=texts[i]) for i in range(len(texts))], axis=1)))
@@ -127,13 +128,15 @@ def Morph():
             save_morph_dir = os.path.join(
                 file_dir, new_filename + '_Morph.jpg')
             img = cv2.imread(save_dir, cv2.IMREAD_COLOR)
-            texts = ['Origin', 'Gray', 'Opening', 'Closing', 'Erosion', 'Dilation']
+            texts = ['Origin',  'Gray', 'Erosion', 'Dilation',
+                     'Opening', 'Closing', 'Grad', 'TopHat', 'BlackHat']
             dsts = mo.MyMethod(img, 'color')
             cv2.imwrite(save_morph_dir,  resize(np.concatenate(
                 [add_title(add_border(dsts[i]), text=texts[i]) for i in range(len(texts))], axis=1)))
     except:
         pass
     return render_template('task2_Morph.html', dir_result=save_morph_dir)
+
 
 @app.route('/Laplace', methods=['POST'], strict_slashes=False)
 def Laplace():
